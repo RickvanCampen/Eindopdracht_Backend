@@ -1,4 +1,4 @@
-package com.example.eindopdracht_backend_ipmroved.model;
+package com.example.eindopdracht_backend_ipmroved.Entity;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

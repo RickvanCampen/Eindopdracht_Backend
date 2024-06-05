@@ -3,7 +3,7 @@ package com.example.eindopdracht_backend_ipmroved;
 import static org.mockito.Mockito.*;
 import static org.assertj.core.api.Assertions.*;
 
-import com.example.eindopdracht_backend_ipmroved.model.TestEntity;
+import com.example.eindopdracht_backend_ipmroved.Entity.TestEntity;
 import com.example.eindopdracht_backend_ipmroved.repository.TestEntityRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
