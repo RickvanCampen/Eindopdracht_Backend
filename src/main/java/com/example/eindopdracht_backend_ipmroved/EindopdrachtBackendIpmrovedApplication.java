@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 
 
 @SpringBootApplication
-@EntityScan("com.example.eindopdracht_backend_ipmroved.model")
+@EntityScan("com.example.eindopdracht_backend_ipmroved.entity")
 public class EindopdrachtBackendIpmrovedApplication {
 
     public static void main(String[] args) {

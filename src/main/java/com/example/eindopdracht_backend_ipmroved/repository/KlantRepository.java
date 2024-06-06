@@ -1,4 +1,9 @@
 package com.example.eindopdracht_backend_ipmroved.repository;
 
-public class KlantRepository {
+import com.example.eindopdracht_backend_ipmroved.entity.Klant;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface KlantRepository extends JpaRepository<Klant, Long> {
 }
