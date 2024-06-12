@@ -42,4 +42,8 @@ public class AankoopbonService {
     public void deleteAankoopbon(Long id) {
         aankoopbonRepository.deleteById(id);
     }
+
+    public List<Aankoopbon> getAankoopbonnenByKlantId(Long klantId) {
+        return aankoopbonRepository.findByKlantId(klantId);
+    }
 }

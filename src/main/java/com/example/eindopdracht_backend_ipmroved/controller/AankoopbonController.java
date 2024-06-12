@@ -32,6 +32,12 @@ public class AankoopbonController {
                 .map(aankoopbon -> new ResponseEntity<>(aankoopbon, HttpStatus.OK))
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
+    @GetMapping("/klant/{klantId}")
+    public ResponseEntity<List<Aankoopbon>> getAankoopbonnenByKlantId(@PathVariable Long klantId) {
+        List<Aankoopbon> aankoopbonnen = aankoopbonService.getAankoopbonnenByKlantId(klantId);
+        return new ResponseEntity<>(aankoopbonnen, HttpStatus.OK);
+    }
+
 
     @PostMapping
     public ResponseEntity<Aankoopbon> createAankoopbon(@RequestBody Aankoopbon aankoopbon) {
