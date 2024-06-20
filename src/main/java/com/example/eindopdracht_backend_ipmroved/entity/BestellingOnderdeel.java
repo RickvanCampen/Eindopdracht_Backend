@@ -1,8 +1,13 @@
 package com.example.eindopdracht_backend_ipmroved.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
 import javax.persistence.*;
 
 @Entity
+@Data
+@AllArgsConstructor
 public class BestellingOnderdeel {
 
     @Id
@@ -20,44 +25,7 @@ public class BestellingOnderdeel {
 
     private double prijs;
 
-    // Getters en setters
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Aankoopbon getAankoopbon() {
-        return aankoopbon;
-    }
-
-    public void setAankoopbon(Aankoopbon aankoopbon) {
-        this.aankoopbon = aankoopbon;
-    }
-
-    public Product getProduct() {
-        return product;
-    }
-
-    public void setProduct(Product product) {
-        this.product = product;
-    }
-
-    public int getHoeveelheid() {
-        return hoeveelheid;
-    }
-
-    public void setHoeveelheid(int hoeveelheid) {
-        this.hoeveelheid = hoeveelheid;
-    }
-
-    public double getPrijs() {
-        return prijs;
-    }
-
-    public void setPrijs(double prijs) {
-        this.prijs = prijs;
+    // No-argument constructor
+    public BestellingOnderdeel() {
     }
 }

@@ -1,9 +1,14 @@
 package com.example.eindopdracht_backend_ipmroved.entity;
 
+import lombok.*;
+
 import javax.persistence.*;
 import java.util.Date;
 
 @Entity
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Reparatie {
 
     @Id
@@ -26,53 +31,7 @@ public class Reparatie {
 
     private Date datum;
 
-    // Constructors, getters, setters
+    // Andere getters en setters worden automatisch gegenereerd door Lombok
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Fiets getFiets() {
-        return fiets;
-    }
-
-    public void setFiets(Fiets fiets) {
-        this.fiets = fiets;
-    }
-
-    public Medewerker getMedewerker() {
-        return medewerker;
-    }
-
-    public void setMedewerker(Medewerker medewerker) {
-        this.medewerker = medewerker;
-    }
-
-    public Checkbeurt getCheckbeurt() {
-        return checkbeurt;
-    }
-
-    public void setCheckbeurt(Checkbeurt checkbeurt) {
-        this.checkbeurt = checkbeurt;
-    }
-
-    public String getOpmerkingen() {
-        return opmerkingen;
-    }
-
-    public void setOpmerkingen(String opmerkingen) {
-        this.opmerkingen = opmerkingen;
-    }
-
-    public Date getDatum() {
-        return datum;
-    }
-
-    public void setDatum(Date datum) {
-        this.datum = datum;
-    }
+    // toString methode wordt automatisch gegenereerd door Lombok
 }

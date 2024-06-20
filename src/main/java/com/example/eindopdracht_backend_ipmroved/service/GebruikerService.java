@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class GebruikerService {
 
@@ -19,7 +21,8 @@ public class GebruikerService {
     }
 
     public Gebruiker findByGebruikersnaam(String gebruikersnaam) {
-        return gebruikerRepository.findByGebruikersnaam(gebruikersnaam);
+        Optional<Gebruiker> optionalGebruiker = gebruikerRepository.findByGebruikersnaam(gebruikersnaam);
+        return optionalGebruiker.orElse(null); // Return null if gebruiker is not found
     }
 
     public Gebruiker saveGebruiker(Gebruiker gebruiker) {

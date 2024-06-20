@@ -1,8 +1,13 @@
 package com.example.eindopdracht_backend_ipmroved.entity;
 
+import lombok.*;
+
 import javax.persistence.*;
 
 @Entity
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Voorraad {
 
     @Id
@@ -15,29 +20,5 @@ public class Voorraad {
 
     private int aantal;
 
-    // Constructors, getters, and setters
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Product getProduct() {
-        return product;
-    }
-
-    public void setProduct(Product product) {
-        this.product = product;
-    }
-
-    public int getAantal() {
-        return aantal;
-    }
-
-    public void setAantal(int aantal) {
-        this.aantal = aantal;
-    }
 }
