@@ -4,6 +4,7 @@ import com.example.eindopdracht_backend_ipmroved.dto.LoginRequest;
 import com.example.eindopdracht_backend_ipmroved.security.JwtAuthenticationResponse;
 import com.example.eindopdracht_backend_ipmroved.security.JwtTokenProvider;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -20,7 +21,7 @@ public class AuthController {
     private final JwtTokenProvider jwtTokenProvider;
 
     @Autowired
-    public AuthController(AuthenticationManager authenticationManager, JwtTokenProvider jwtTokenProvider) {
+    public AuthController(@Qualifier("authenticationManagerBean") AuthenticationManager authenticationManager, JwtTokenProvider jwtTokenProvider) {
         this.authenticationManager = authenticationManager;
         this.jwtTokenProvider = jwtTokenProvider;
     }
