@@ -22,7 +22,4 @@ public class Betaalmethode {
 
     @Column(nullable = false)
     private boolean actief;
-
-    // No need to manually define constructors, getters, setters, toString with Lombok annotations
-
 }

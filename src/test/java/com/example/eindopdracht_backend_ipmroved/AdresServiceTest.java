@@ -76,5 +76,16 @@ public class AdresServiceTest {
         verify(adresRepository, times(1)).save(adres1);
     }
 
-    // Voeg meer tests toe voor andere methoden zoals updateAdres, deleteAdres, etc.
+    @Test
+    public void testDeleteAdres() {
+        // Arrange
+        Long adresId = 1L;
+        doNothing().when(adresRepository).deleteById(adresId);
+
+        // Act
+        adresService.deleteAdres(adresId);
+
+        // Assert
+        verify(adresRepository, times(1)).deleteById(adresId);
+    }
 }
