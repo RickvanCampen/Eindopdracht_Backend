@@ -36,7 +36,7 @@ public class ProductService {
             product.setId(id);
             return productRepository.save(product);
         } else {
-            return null; // Return null or throw an exception to indicate that the product with the given id doesn't exist
+            return null;
         }
     }
 

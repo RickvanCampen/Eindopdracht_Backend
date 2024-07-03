@@ -35,7 +35,7 @@ public class CheckbeurtService {
             checkbeurt.setId(id);
             return checkbeurtRepository.save(checkbeurt);
         } else {
-            return null; // Return null or throw an exception to indicate that the checkbeurt with the given id doesn't exist
+            return null;
         }
     }
 

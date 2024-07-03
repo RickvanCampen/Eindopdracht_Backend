@@ -36,7 +36,7 @@ public class VoorraadService {
             voorraad.setId(id);
             return voorraadRepository.save(voorraad);
         } else {
-            return null; // Return null or throw an exception to indicate that the voorraad with the given id doesn't exist
+            return null;
         }
     }
 

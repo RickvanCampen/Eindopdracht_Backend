@@ -36,7 +36,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         return new org.springframework.security.core.userdetails.User(
                 gebruiker.getGebruikersnaam(),
                 gebruiker.getWachtwoord(),
-                mapRolesToAuthorities(Collections.singletonList("ROLE_USER"))); // Pas de rol aan indien nodig
+                mapRolesToAuthorities(Collections.singletonList("ROLE_USER")));
     }
 
     private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Collection<String> roles) {

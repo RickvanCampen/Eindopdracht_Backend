@@ -27,7 +27,6 @@ public class CustomLogoutHandler implements LogoutHandler {
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             String token = authHeader.substring(7);
             tokenRepository.findByAccessToken(token).ifPresent(storedToken -> {
-                // Assuming you have a method to set the token as logged out
                 storedToken.setLoggedOut(true);
                 tokenRepository.save(storedToken);
             });

@@ -38,13 +38,10 @@ public class BetaalmethodeServiceTest {
 
     @Test
     public void testGetAllBetaalmethoden() {
-        // Arrange
         when(betaalmethodeRepository.findAll()).thenReturn(Arrays.asList(betaalmethode1, betaalmethode2));
 
-        // Act
         List<Betaalmethode> betaalmethoden = betaalmethodeService.getAllBetaalmethoden();
 
-        // Assert
         assertThat(betaalmethoden).hasSize(2);
         assertThat(betaalmethoden).containsExactlyInAnyOrder(betaalmethode1, betaalmethode2);
         verify(betaalmethodeRepository, times(1)).findAll();
@@ -52,13 +49,10 @@ public class BetaalmethodeServiceTest {
 
     @Test
     public void testGetBetaalmethodeById_existingId() {
-        // Arrange
         when(betaalmethodeRepository.findById(1L)).thenReturn(Optional.of(betaalmethode1));
 
-        // Act
         Optional<Betaalmethode> foundBetaalmethode = betaalmethodeService.getBetaalmethodeById(1L);
 
-        // Assert
         assertThat(foundBetaalmethode).isPresent();
         assertThat(foundBetaalmethode.get().getNaam()).isEqualTo("iDEAL");
         verify(betaalmethodeRepository, times(1)).findById(1L);
@@ -66,27 +60,21 @@ public class BetaalmethodeServiceTest {
 
     @Test
     public void testCreateBetaalmethode() {
-        // Arrange
         when(betaalmethodeRepository.save(any(Betaalmethode.class))).thenReturn(betaalmethode1);
 
-        // Act
         Betaalmethode savedBetaalmethode = betaalmethodeService.createBetaalmethode(betaalmethode1);
 
-        // Assert
         assertThat(savedBetaalmethode.getNaam()).isEqualTo("iDEAL");
         verify(betaalmethodeRepository, times(1)).save(betaalmethode1);
     }
 
     @Test
     public void testDeleteBetaalmethode() {
-        // Arrange
         Long betaalmethodeId = 1L;
         doNothing().when(betaalmethodeRepository).deleteById(betaalmethodeId);
 
-        // Act
         betaalmethodeService.deleteBetaalmethode(betaalmethodeId);
 
-        // Assert
         verify(betaalmethodeRepository, times(1)).deleteById(betaalmethodeId);
     }
 }

@@ -22,7 +22,7 @@ public class GebruikerController {
     public ResponseEntity<Gebruiker> registreren(@RequestBody Gebruiker gebruiker) {
         Gebruiker bestaandeGebruiker = gebruikerService.findByGebruikersnaam(gebruiker.getGebruikersnaam());
         if (bestaandeGebruiker != null) {
-            return new ResponseEntity<>(HttpStatus.CONFLICT); // Gebruiker bestaat al
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
         Gebruiker nieuweGebruiker = gebruikerService.saveGebruiker(gebruiker);
         return new ResponseEntity<>(nieuweGebruiker, HttpStatus.CREATED);

@@ -23,6 +23,4 @@ public class Fiets {
 
     @ManyToOne
     private Fietsgarage fietsgarage;
-
-    // Geen noodzaak voor expliciete constructor, getters en setters met Lombok
 }

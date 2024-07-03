@@ -36,7 +36,7 @@ public class ReparatieService {
             reparatie.setId(id);
             return reparatieRepository.save(reparatie);
         } else {
-            return null; // Return null or throw an exception to indicate that the reparatie with the given id doesn't exist
+            return null;
         }
     }
 

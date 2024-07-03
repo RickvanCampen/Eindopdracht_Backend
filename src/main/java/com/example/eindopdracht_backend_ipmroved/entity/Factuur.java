@@ -26,7 +26,4 @@ public class Factuur {
 
     @OneToMany(mappedBy = "factuur", cascade = CascadeType.ALL)
     private List<Product> producten;
-
-    // Andere getters en setters
-
 }

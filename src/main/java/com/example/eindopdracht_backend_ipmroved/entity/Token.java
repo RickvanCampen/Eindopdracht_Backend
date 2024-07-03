@@ -19,7 +19,6 @@ public class Token {
     @Column(nullable = false)
     private boolean loggedOut = false;
 
-    // Constructor met accessToken parameter
     public Token(String accessToken) {
         this.accessToken = accessToken;
     }

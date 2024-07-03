@@ -20,5 +20,4 @@ public class Voorraad {
 
     private int aantal;
 
-
 }

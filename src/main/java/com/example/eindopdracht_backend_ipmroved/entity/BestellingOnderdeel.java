@@ -25,7 +25,6 @@ public class BestellingOnderdeel {
 
     private double prijs;
 
-    // No-argument constructor
     public BestellingOnderdeel() {
     }
 }

@@ -21,5 +21,4 @@ public class Gebruiker {
     @JoinColumn(name = "medewerker_id", referencedColumnName = "id")
     private Medewerker medewerker;
 
-    // Geen noodzaak voor expliciete constructor, getters en setters met Lombok
 }

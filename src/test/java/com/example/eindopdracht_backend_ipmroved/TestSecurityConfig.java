@@ -21,9 +21,9 @@ public class TestSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/api/fietsen/**").authenticated() // Bescherm de endpoints die je wilt testen
+                .antMatchers("/api/fietsen/**").authenticated()
                 .and()
-                .httpBasic(); // Gebruik eenvoudige HTTP Basic-authenticatie voor testen
+                .httpBasic();
     }
 
     @Bean(name = "testAuthenticationManager")

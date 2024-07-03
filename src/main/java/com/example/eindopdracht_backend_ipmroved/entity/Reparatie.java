@@ -31,7 +31,4 @@ public class Reparatie {
 
     private Date datum;
 
-    // Andere getters en setters worden automatisch gegenereerd door Lombok
-
-    // toString methode wordt automatisch gegenereerd door Lombok
 }

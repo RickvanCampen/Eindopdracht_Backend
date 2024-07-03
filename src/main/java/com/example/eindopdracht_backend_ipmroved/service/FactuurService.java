@@ -35,7 +35,7 @@ public class FactuurService {
             factuur.setId(id);
             return factuurRepository.save(factuur);
         } else {
-            return null; // Return null or throw an exception to indicate that the factuur with the given id doesn't exist
+            return null;
         }
     }
 

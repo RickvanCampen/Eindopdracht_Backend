@@ -6,5 +6,4 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ReparatieRepository extends JpaRepository<Reparatie, Long> {
-    // Voeg eventuele aanvullende methoden toe die nodig zijn voor gegevensbewerkingen
 }

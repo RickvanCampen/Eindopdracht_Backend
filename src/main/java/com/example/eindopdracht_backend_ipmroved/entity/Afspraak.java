@@ -24,11 +24,9 @@ public class Afspraak {
     private String locatie;
     private String status;
 
-    // No-argument constructor
     public Afspraak() {
     }
 
-    // Constructor with parameters
     public Afspraak(LocalDate datum, LocalTime begintijd, LocalTime eindtijd, String beschrijving, String locatie, String status) {
         this.datum = datum;
         this.begintijd = begintijd;

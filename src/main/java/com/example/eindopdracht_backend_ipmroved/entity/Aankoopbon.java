@@ -28,6 +28,6 @@ public class Aankoopbon {
     @OneToMany(mappedBy = "aankoopbon", cascade = CascadeType.ALL)
     private List<BestellingOnderdeel> bestellingen;
 
-    // Constructors
+
     public Aankoopbon() {}
 }

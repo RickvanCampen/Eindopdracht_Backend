@@ -35,7 +35,7 @@ public class MedewerkerService {
             medewerker.setId(id);
             return medewerkerRepository.save(medewerker);
         } else {
-            return null; // Return null or throw an exception to indicate that the medewerker with the given id doesn't exist
+            return null;
         }
     }
 

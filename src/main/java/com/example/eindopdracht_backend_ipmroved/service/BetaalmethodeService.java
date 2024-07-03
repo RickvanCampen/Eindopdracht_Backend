@@ -35,7 +35,7 @@ public class BetaalmethodeService {
             betaalmethode.setId(id);
             return betaalmethodeRepository.save(betaalmethode);
         } else {
-            return null; // Return null or throw an exception to indicate that the betaalmethode with the given id doesn't exist
+            return null;
         }
     }
 

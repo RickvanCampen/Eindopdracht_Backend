@@ -22,7 +22,7 @@ public class GebruikerService {
 
     public Gebruiker findByGebruikersnaam(String gebruikersnaam) {
         Optional<Gebruiker> optionalGebruiker = gebruikerRepository.findByGebruikersnaam(gebruikersnaam);
-        return optionalGebruiker.orElse(null); // Return null if gebruiker is not found
+        return optionalGebruiker.orElse(null);
     }
 
     public Gebruiker saveGebruiker(Gebruiker gebruiker) {

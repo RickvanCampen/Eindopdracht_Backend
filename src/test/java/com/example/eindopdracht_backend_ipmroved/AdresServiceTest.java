@@ -37,13 +37,10 @@ public class AdresServiceTest {
 
     @Test
     public void testGetAllAdressen() {
-        // Arrange
         when(adresRepository.findAll()).thenReturn(Arrays.asList(adres1, adres2));
 
-        // Act
         List<Adres> adressen = adresService.getAllAdressen();
 
-        // Assert
         assertThat(adressen).hasSize(2);
         assertThat(adressen).containsExactlyInAnyOrder(adres1, adres2);
         verify(adresRepository, times(1)).findAll();
@@ -51,13 +48,10 @@ public class AdresServiceTest {
 
     @Test
     public void testGetAdresById_existingId() {
-        // Arrange
         when(adresRepository.findById(1L)).thenReturn(Optional.of(adres1));
 
-        // Act
         Optional<Adres> foundAdres = adresService.getAdresById(1L);
 
-        // Assert
         assertThat(foundAdres).isPresent();
         assertThat(foundAdres.get().getPostcode()).isEqualTo("1234 AB");
         verify(adresRepository, times(1)).findById(1L);
@@ -65,27 +59,21 @@ public class AdresServiceTest {
 
     @Test
     public void testCreateAdres() {
-        // Arrange
         when(adresRepository.save(any(Adres.class))).thenReturn(adres1);
 
-        // Act
         Adres savedAdres = adresService.createAdres(adres1);
 
-        // Assert
         assertThat(savedAdres.getWoonplaats()).isEqualTo("Voorbeeldstad");
         verify(adresRepository, times(1)).save(adres1);
     }
 
     @Test
     public void testDeleteAdres() {
-        // Arrange
         Long adresId = 1L;
         doNothing().when(adresRepository).deleteById(adresId);
 
-        // Act
         adresService.deleteAdres(adresId);
 
-        // Assert
         verify(adresRepository, times(1)).deleteById(adresId);
     }
 }

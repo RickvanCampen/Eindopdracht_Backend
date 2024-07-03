@@ -36,7 +36,7 @@ public class OnderdeelService {
             onderdeel.setId(id);
             return onderdeelRepository.save(onderdeel);
         } else {
-            return null; // Return null or throw an exception to indicate that the onderdeel with the given id doesn't exist
+            return null;
         }
     }
 

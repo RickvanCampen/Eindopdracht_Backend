@@ -45,9 +45,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/api/gebruikers/registreren").permitAll() // Permit registration endpoint
-                .antMatchers("/login/**", "/register/**", "/refresh_token/**").permitAll() // Permit specific endpoints
-                .antMatchers("/admin_only/**").hasAuthority("ADMIN") // Example: Admin-only endpoint
+                .antMatchers("/api/gebruikers/registreren").permitAll()
+                .antMatchers("/login/**", "/register/**", "/refresh_token/**").permitAll()
+                .antMatchers("/admin_only/**").hasAuthority("ADMIN")
                 .anyRequest().authenticated()
                 .and()
                 .sessionManagement()

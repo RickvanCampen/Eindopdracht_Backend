@@ -35,7 +35,7 @@ public class FietsService {
             fiets.setId(id);
             return fietsRepository.save(fiets);
         } else {
-            return null; // Return null or throw an exception to indicate that the fiets with the given id doesn't exist
+            return null;
         }
     }
 

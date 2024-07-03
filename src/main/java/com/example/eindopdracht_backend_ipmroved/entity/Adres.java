@@ -19,7 +19,6 @@ public class Adres {
     private String postcode;
     private String woonplaats;
 
-    // Lombok genereert een constructor met alle velden als parameters
     public Adres(Long id, String straat, String huisnummer, String postcode, String woonplaats) {
         this.id = id;
         this.straat = straat;

@@ -35,7 +35,7 @@ public class LeveringService {
             levering.setId(id);
             return leveringRepository.save(levering);
         } else {
-            return null; // Return null or throw an exception to indicate that the levering with the given id doesn't exist
+            return null;
         }
     }
 
