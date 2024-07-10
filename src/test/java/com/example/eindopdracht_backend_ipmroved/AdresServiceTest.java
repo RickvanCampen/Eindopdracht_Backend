@@ -31,8 +31,8 @@ public class AdresServiceTest {
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.openMocks(this);
-        adres1 = new Adres(1L, "Null", "Null", "1234 AB", "Voorbeeldstad");
-        adres2 = new Adres(4L, "Null", "Null", "5678 CD", "Andereplaats");
+        adres1 = new Adres(4L, "Molenstraat", "2", "2345 BC", "Rotterdam");
+        adres2 = new Adres(8L, "Havenstraat", "3", "3456 CD", "Utrecht");
     }
 
     @Test
@@ -48,13 +48,13 @@ public class AdresServiceTest {
 
     @Test
     public void testGetAdresById_existingId() {
-        when(adresRepository.findById(1L)).thenReturn(Optional.of(adres1));
+        when(adresRepository.findById(4L)).thenReturn(Optional.of(adres1));
 
-        Optional<Adres> foundAdres = adresService.getAdresById(1L);
+        Optional<Adres> foundAdres = adresService.getAdresById(4L);
 
         assertThat(foundAdres).isPresent();
-        assertThat(foundAdres.get().getPostcode()).isEqualTo("1234 AB");
-        verify(adresRepository, times(1)).findById(1L);
+        assertThat(foundAdres.get().getPostcode()).isEqualTo("2345 BC");
+        verify(adresRepository, times(1)).findById(4L);
     }
 
     @Test
@@ -63,7 +63,7 @@ public class AdresServiceTest {
 
         Adres savedAdres = adresService.createAdres(adres1);
 
-        assertThat(savedAdres.getWoonplaats()).isEqualTo("Voorbeeldstad");
+        assertThat(savedAdres.getWoonplaats()).isEqualTo("Rotterdam");
         verify(adresRepository, times(1)).save(adres1);
     }
 

@@ -31,8 +31,8 @@ public class MedewerkerServiceTest {
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.openMocks(this);
-        medewerker1 = new Medewerker(1L, "Bart Smit", "baas", "bartsmit@gmail.com", "0640965555");
-        medewerker2 = new Medewerker(2L, "Kees Kabouter", "fietsenmaker", "keeskabouter@gmail.com", "0641952421");
+        medewerker1 = new Medewerker(1L, "Bart Smit", "fietsenmaker", "bartsmit@gmail.com", "0640965555");
+        medewerker2 = new Medewerker(2L, "Kees Kabouter", "kassamedewerker", "keeskabouter@gmail.com", "0641952421");
     }
 
     @Test
