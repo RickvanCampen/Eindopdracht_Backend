@@ -9,7 +9,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,13 +30,14 @@ public class MedewerkerServiceTest {
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.openMocks(this);
-        medewerker1 = new Medewerker(1L, "Bart Smit", "fietsenmaker", "bartsmit@gmail.com", "0640965555");
-        medewerker2 = new Medewerker(2L, "Kees Kabouter", "kassamedewerker", "keeskabouter@gmail.com", "0641952421");
+
+        medewerker1 = new Medewerker(1L, "Bart Smit", "fietsenmaker", "bartsmit@gmail.com", "0640965555", "bart", "password123");
+        medewerker2 = new Medewerker(2L, "Kees Kabouter", "kassamedewerker", "keeskabouter@gmail.com", "0641952421", "kees", "password456");
     }
 
     @Test
     public void testGetAllMedewerkers() {
-        when(medewerkerRepository.findAll()).thenReturn(Arrays.asList(medewerker1, medewerker2));
+        when(medewerkerRepository.findAll()).thenReturn(List.of(medewerker1, medewerker2));
 
         List<Medewerker> medewerkers = medewerkerService.getAllMedewerkers();
 
@@ -54,6 +54,7 @@ public class MedewerkerServiceTest {
 
         assertThat(foundMedewerker).isPresent();
         assertThat(foundMedewerker.get().getNaam()).isEqualTo("Bart Smit");
+        assertThat(foundMedewerker.get().getEmail()).isEqualTo("bartsmit@gmail.com");
         verify(medewerkerRepository, times(1)).findById(1L);
     }
 
@@ -64,13 +65,14 @@ public class MedewerkerServiceTest {
         Medewerker savedMedewerker = medewerkerService.createMedewerker(medewerker1);
 
         assertThat(savedMedewerker.getNaam()).isEqualTo("Bart Smit");
+        assertThat(savedMedewerker.getEmail()).isEqualTo("bartsmit@gmail.com");
         verify(medewerkerRepository, times(1)).save(medewerker1);
     }
 
     @Test
     public void testUpdateMedewerker_existingId() {
         Long medewerkerId = 1L;
-        Medewerker updatedMedewerker = new Medewerker(medewerkerId, "Updated Bart Smit", "updated baas", "updatedbartsmit@gmail.com", "0640965555");
+        Medewerker updatedMedewerker = new Medewerker(medewerkerId, "Updated Bart Smit", "updated functie", "updatedbartsmit@gmail.com", "0640965555", "updatedbart", "newpassword");
         when(medewerkerRepository.findById(medewerkerId)).thenReturn(Optional.of(medewerker1));
         when(medewerkerRepository.save(any(Medewerker.class))).thenReturn(updatedMedewerker);
 
@@ -81,6 +83,17 @@ public class MedewerkerServiceTest {
         assertThat(result.getEmail()).isEqualTo("updatedbartsmit@gmail.com");
         verify(medewerkerRepository, times(1)).findById(medewerkerId);
         verify(medewerkerRepository, times(1)).save(updatedMedewerker);
+    }
+
+    @Test
+    public void testUpdateMedewerker_nonExistingId() {
+        Long medewerkerId = 3L;
+        when(medewerkerRepository.findById(medewerkerId)).thenReturn(Optional.empty());
+
+        Medewerker result = medewerkerService.updateMedewerker(medewerkerId, medewerker1);
+
+        assertThat(result).isNull();
+        verify(medewerkerRepository, never()).save(any(Medewerker.class));
     }
 
     @Test

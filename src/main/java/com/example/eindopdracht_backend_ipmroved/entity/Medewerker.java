@@ -19,4 +19,6 @@ public class Medewerker {
     private String email;
     private String telefoonnummer;
 
+    private String gebruikersnaam;
+    private String wachtwoord;
 }

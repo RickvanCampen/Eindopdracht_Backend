@@ -21,9 +21,6 @@ public class Factuur {
     @ManyToOne
     private Klant klant;
 
-    @ManyToOne
-    private Betaalmethode betaalmethode;
-
     @OneToMany(mappedBy = "factuur", cascade = CascadeType.ALL)
     private List<Product> producten;
 }

@@ -15,10 +15,6 @@ public class BestellingOnderdeel {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "aankoopbon_id")
-    private Aankoopbon aankoopbon;
-
-    @ManyToOne
     private Product product;
 
     private int hoeveelheid;

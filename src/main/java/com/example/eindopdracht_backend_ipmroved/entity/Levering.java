@@ -4,7 +4,6 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.List;
 
 @Entity
 @Data
@@ -20,7 +19,5 @@ public class Levering {
     private String leverancier;
     private String trackingCode;
 
-    @OneToMany(mappedBy = "levering", cascade = CascadeType.ALL)
-    private List<Aankoopbon> aankoopbonnen;
 
 }
