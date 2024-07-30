@@ -11,10 +11,10 @@
     </parent>
 
     <groupId>com.example</groupId>
-    <artifactId>Eindopdracht_Backend_Ipmroved</artifactId>
+    <artifactId>Eindopdracht_Backend_Improved</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>Eindopdracht_Backend_Ipmroved</name>
-    <description>Eindopdracht_Backend_Ipmroved</description>
+    <name>Eindopdracht_Backend_Improved</name>
+    <description>Eindopdracht_Backend_Improved</description>
 
     <properties>
         <java.version>17</java.version>
@@ -76,7 +76,7 @@
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
-            <scope>test</scope>
+            <scope>runtime</scope>
         </dependency>
     </dependencies>
 
