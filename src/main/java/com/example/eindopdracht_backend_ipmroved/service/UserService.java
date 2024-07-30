@@ -19,15 +19,16 @@ public class UserService {
     }
 
     public User registerUser(User user) {
-        // Check if the username already exists
         if (userRepository.findByUsername(user.getUsername()) != null) {
             throw new RuntimeException("Username already exists");
         }
 
-        // Encode the password
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
-        // Save the user
         return userRepository.save(user);
+    }
+
+    public User findByUsername(String username) {
+        return userRepository.findByUsername(username);
     }
 }

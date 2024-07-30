@@ -2,6 +2,7 @@ package com.example.eindopdracht_backend_ipmroved.controller;
 
 import com.example.eindopdracht_backend_ipmroved.dto.LoginRequest;
 import com.example.eindopdracht_backend_ipmroved.dto.RegisterRequest;
+import com.example.eindopdracht_backend_ipmroved.dto.ProfileResponse;
 import com.example.eindopdracht_backend_ipmroved.security.JwtAuthenticationResponse;
 import com.example.eindopdracht_backend_ipmroved.security.JwtTokenProvider;
 import com.example.eindopdracht_backend_ipmroved.entity.User;
@@ -14,11 +15,14 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequestMapping("/api")
 public class AuthController {
 
     private final AuthenticationManager authenticationManager;
@@ -34,7 +38,7 @@ public class AuthController {
         this.userService = userService;
     }
 
-    @PostMapping("/login")
+    @PostMapping("/auth/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
@@ -48,7 +52,7 @@ public class AuthController {
         return ResponseEntity.ok(new JwtAuthenticationResponse(jwt));
     }
 
-    @PostMapping("/api/auth/register")
+    @PostMapping("/auth/register")
     public ResponseEntity<String> register(@RequestBody RegisterRequest registerRequest) {
         try {
             User user = new User();
@@ -60,5 +64,16 @@ public class AuthController {
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
+    }
+
+    @GetMapping("/profile")
+    public ResponseEntity<ProfileResponse> getProfile() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        User user = userService.findByUsername(username);
+
+        ProfileResponse profileResponse = new ProfileResponse(user.getUsername(), user.getEmail());
+
+        return ResponseEntity.ok(profileResponse);
     }
 }
