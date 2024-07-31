@@ -25,7 +25,7 @@ public class KlantControllerIntegrationTest {
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
 
-    private final ObjectMapper objectMapper = new ObjectMapper(); // Initialiseer ObjectMapper
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Test
     public void testCreateKlant() throws Exception {

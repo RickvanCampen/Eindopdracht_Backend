@@ -1,4 +1,4 @@
-package com.example.eindopdracht_backend_ipmroved.controller;
+package com.example.eindopdracht_backend_ipmroved.controller.files;
 
 import com.example.eindopdracht_backend_ipmroved.service.StorageService;
 import org.springframework.beans.factory.annotation.Autowired;

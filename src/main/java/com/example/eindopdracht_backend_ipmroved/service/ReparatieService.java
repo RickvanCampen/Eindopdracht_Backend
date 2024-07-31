@@ -28,7 +28,6 @@ public class ReparatieService {
     }
 
     public Reparatie createReparatie(Reparatie reparatie) {
-        // Voeg hier eventueel validatie toe
         return reparatieRepository.save(reparatie);
     }
 

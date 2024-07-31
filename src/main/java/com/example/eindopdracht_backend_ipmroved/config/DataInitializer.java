@@ -1,4 +1,4 @@
-package com.example.eindopdracht_backend_ipmroved.security;
+package com.example.eindopdracht_backend_ipmroved.config;
 
 import com.example.eindopdracht_backend_ipmroved.entity.User;
 import com.example.eindopdracht_backend_ipmroved.repository.UserRepository;

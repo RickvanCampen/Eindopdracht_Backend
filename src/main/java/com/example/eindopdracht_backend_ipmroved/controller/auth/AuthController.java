@@ -1,9 +1,9 @@
-package com.example.eindopdracht_backend_ipmroved.controller;
+package com.example.eindopdracht_backend_ipmroved.controller.auth;
 
 import com.example.eindopdracht_backend_ipmroved.dto.LoginRequest;
 import com.example.eindopdracht_backend_ipmroved.dto.RegisterRequest;
 import com.example.eindopdracht_backend_ipmroved.dto.ProfileResponse;
-import com.example.eindopdracht_backend_ipmroved.security.JwtAuthenticationResponse;
+import com.example.eindopdracht_backend_ipmroved.dto.JwtAuthenticationResponse;
 import com.example.eindopdracht_backend_ipmroved.security.JwtTokenProvider;
 import com.example.eindopdracht_backend_ipmroved.entity.User;
 import com.example.eindopdracht_backend_ipmroved.service.UserService;
@@ -64,11 +64,7 @@ public class AuthController {
     @PostMapping("/auth/register")
     public ResponseEntity<String> register(@Valid @RequestBody RegisterRequest registerRequest) {
         try {
-            User user = new User();
-            user.setUsername(registerRequest.getUsername());
-            user.setPassword(registerRequest.getPassword());
-            user.setEmail(registerRequest.getEmail());
-            userService.registerUser(user);
+            userService.registerUser(registerRequest);
             return ResponseEntity.status(HttpStatus.CREATED).body("User registered successfully");
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());

@@ -1,4 +1,4 @@
-package com.example.eindopdracht_backend_ipmroved.controller;
+package com.example.eindopdracht_backend_ipmroved.controller.user;
 
 import com.example.eindopdracht_backend_ipmroved.entity.Reparatie;
 import com.example.eindopdracht_backend_ipmroved.service.ReparatieService;

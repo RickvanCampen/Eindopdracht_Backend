@@ -45,28 +45,28 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/api/auth/register").permitAll() // Registratie openstellen
-                .antMatchers("/api/auth/login").permitAll() // Login openstellen
-                .anyRequest().authenticated() // Andere verzoeken vereisen authenticatie
+                .antMatchers("/api/auth/register").permitAll()
+                .antMatchers("/api/auth/login").permitAll()
+                .anyRequest().authenticated()
                 .and()
                 .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // Geen sessies gebruiken
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .exceptionHandling()
-                .authenticationEntryPoint(jwtAuthenticationEntryPoint) // Behandeling van niet-geauthenticeerde toegang
+                .authenticationEntryPoint(jwtAuthenticationEntryPoint)
                 .and()
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class) // Voeg JWT filter toe
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .logout()
-                .logoutRequestMatcher(new AntPathRequestMatcher("/logout")) // Configureer logout
+                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                 .logoutSuccessHandler((request, response, authentication) -> {
                     response.setStatus(HttpStatus.OK.value());
-                    SecurityContextHolder.clearContext(); // Verwijder de authenticatie uit de context
+                    SecurityContextHolder.clearContext();
                 });
     }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder(); // Gebruik BCrypt voor het coderen van wachtwoorden
+        return new BCryptPasswordEncoder();
     }
 
     @Bean

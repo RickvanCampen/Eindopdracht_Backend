@@ -53,13 +53,13 @@ public class MedewerkerService {
     }
 
     public Medewerker promoteMedewerker(Long id) {
-        Medewerker medewerker = getMedewerkerById(id); // Gebruik de bestaande methode die een uitzondering gooit als de medewerker niet gevonden wordt
-        medewerker.setRol("ADMIN"); // Voorbeeld: promote to ADMIN
+        Medewerker medewerker = getMedewerkerById(id);
+        medewerker.setRol("ADMIN");
         return medewerkerRepository.save(medewerker);
     }
 
     public Medewerker assignRoleToMedewerker(Long id, String rol) {
-        Medewerker medewerker = getMedewerkerById(id); // Gebruik de bestaande methode die een uitzondering gooit als de medewerker niet gevonden wordt
+        Medewerker medewerker = getMedewerkerById(id);
         medewerker.setRol(rol);
         return medewerkerRepository.save(medewerker);
     }

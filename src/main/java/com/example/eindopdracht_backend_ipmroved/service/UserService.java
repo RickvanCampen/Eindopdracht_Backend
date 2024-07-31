@@ -1,5 +1,6 @@
 package com.example.eindopdracht_backend_ipmroved.service;
 
+import com.example.eindopdracht_backend_ipmroved.dto.RegisterRequest;
 import com.example.eindopdracht_backend_ipmroved.entity.User;
 import com.example.eindopdracht_backend_ipmroved.Exception_Handling.ResourceNotFoundException;
 import com.example.eindopdracht_backend_ipmroved.Exception_Handling.InvalidDataException;
@@ -24,18 +25,21 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public User registerUser(User user) {
-        if (userRepository.findByUsername(user.getUsername()) != null) {
-            logger.error("Attempt to register with existing username: {}", user.getUsername());
+    public User registerUser(RegisterRequest registerRequest) {
+        if (userRepository.findByUsername(registerRequest.getUsername()) != null) {
+            logger.error("Attempt to register with existing username: {}", registerRequest.getUsername());
             throw new InvalidDataException("Username already exists");
         }
 
-        if (user.getUsername() == null || user.getPassword() == null || user.getPassword().isEmpty()) {
-            logger.error("Invalid user data: {}", user);
+        if (registerRequest.getUsername() == null || registerRequest.getPassword() == null || registerRequest.getPassword().isEmpty()) {
+            logger.error("Invalid user data: {}", registerRequest);
             throw new InvalidDataException("Invalid user data");
         }
 
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        User user = new User();
+        user.setUsername(registerRequest.getUsername());
+        user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
+        user.setEmail(registerRequest.getEmail());
         return userRepository.save(user);
     }
 

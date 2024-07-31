@@ -43,11 +43,11 @@ public class KlantDTO {
     @Pattern(regexp = "\\d{4} \\w{2}", message = "Postcode moet het formaat '1234 AB' hebben")
     private String postcode;
 
-    private boolean premium; // Gebruik 'premium' in plaats van 'isPremium'
+    private boolean premium;
 
     private List<String> aankoopGeschiedenis;
 
-    public boolean isPremium() { // Gebruik 'isPremium'
+    public boolean isPremium() {
         return premium;
     }
 

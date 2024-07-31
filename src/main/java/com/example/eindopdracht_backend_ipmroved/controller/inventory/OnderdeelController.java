@@ -1,4 +1,4 @@
-package com.example.eindopdracht_backend_ipmroved.controller;
+package com.example.eindopdracht_backend_ipmroved.controller.inventory;
 
 import com.example.eindopdracht_backend_ipmroved.entity.Onderdeel;
 import com.example.eindopdracht_backend_ipmroved.service.OnderdeelService;

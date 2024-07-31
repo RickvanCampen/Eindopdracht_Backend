@@ -1,4 +1,4 @@
-package com.example.eindopdracht_backend_ipmroved.security;
+package com.example.eindopdracht_backend_ipmroved.dto;
 
 import lombok.Getter;
 import lombok.Setter;

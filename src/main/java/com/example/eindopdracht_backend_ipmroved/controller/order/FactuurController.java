@@ -1,4 +1,4 @@
-package com.example.eindopdracht_backend_ipmroved.controller;
+package com.example.eindopdracht_backend_ipmroved.controller.order;
 
 import com.example.eindopdracht_backend_ipmroved.entity.Factuur;
 import com.example.eindopdracht_backend_ipmroved.service.FactuurService;
