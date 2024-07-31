@@ -1,12 +1,12 @@
 package com.example.eindopdracht_backend_ipmroved.service;
 
 import com.example.eindopdracht_backend_ipmroved.entity.Factuur;
+import com.example.eindopdracht_backend_ipmroved.Exception_Handling.ResourceNotFoundException;
 import com.example.eindopdracht_backend_ipmroved.repository.FactuurRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class FactuurService {
@@ -22,8 +22,10 @@ public class FactuurService {
         return factuurRepository.findAll();
     }
 
-    public Optional<Factuur> getFactuurById(Long id) {
-        return factuurRepository.findById(id);
+    public Factuur getFactuurById(Long id) {
+        return factuurRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "Factuur", "id", id));
     }
 
     public Factuur createFactuur(Factuur factuur) {
@@ -31,15 +33,19 @@ public class FactuurService {
     }
 
     public Factuur updateFactuur(Long id, Factuur factuur) {
-        if (factuurRepository.existsById(id)) {
-            factuur.setId(id);
-            return factuurRepository.save(factuur);
-        } else {
-            return null;
+        if (!factuurRepository.existsById(id)) {
+            throw new ResourceNotFoundException(
+                    "Factuur", "id", id);
         }
+        factuur.setId(id);
+        return factuurRepository.save(factuur);
     }
 
     public void deleteFactuur(Long id) {
+        if (!factuurRepository.existsById(id)) {
+            throw new ResourceNotFoundException(
+                    "Factuur", "id", id);
+        }
         factuurRepository.deleteById(id);
     }
 }

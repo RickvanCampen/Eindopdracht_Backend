@@ -21,4 +21,6 @@ public class Medewerker {
 
     private String gebruikersnaam;
     private String wachtwoord;
+
+    private String rol;
 }

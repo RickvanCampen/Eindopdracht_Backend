@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -28,7 +29,7 @@ public class MedewerkerController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Medewerker> getMedewerkerById(@PathVariable Long id) {
-        Optional<Medewerker> medewerker = medewerkerService.getMedewerkerById(id);
+        Optional<Medewerker> medewerker = Optional.ofNullable(medewerkerService.getMedewerkerById(id));
         return medewerker.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
@@ -53,5 +54,25 @@ public class MedewerkerController {
     public ResponseEntity<Void> deleteMedewerker(@PathVariable Long id) {
         medewerkerService.deleteMedewerker(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @PostMapping("/{id}/promote")
+    public ResponseEntity<Medewerker> promoteMedewerker(@PathVariable Long id) {
+        Medewerker promotedMedewerker = medewerkerService.promoteMedewerker(id);
+        if (promotedMedewerker != null) {
+            return new ResponseEntity<>(promotedMedewerker, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @PutMapping("/{id}/role")
+    public ResponseEntity<Medewerker> assignRoleToMedewerker(@PathVariable Long id, @RequestParam String rol) {
+        Medewerker updatedMedewerker = medewerkerService.assignRoleToMedewerker(id, rol);
+        if (updatedMedewerker != null) {
+            return new ResponseEntity<>(updatedMedewerker, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 }

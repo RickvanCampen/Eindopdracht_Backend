@@ -1,5 +1,6 @@
 package com.example.eindopdracht_backend_ipmroved.service;
 
+import com.example.eindopdracht_backend_ipmroved.Exception_Handling.StorageException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -16,7 +17,9 @@ public class FileSystemStorageService implements StorageService {
     @Override
     public void init() {
         try {
-            Files.createDirectories(rootLocation);
+            if (!Files.exists(rootLocation)) {
+                Files.createDirectories(rootLocation);
+            }
         } catch (IOException e) {
             throw new StorageException("Could not initialize storage", e);
         }
@@ -35,10 +38,14 @@ public class FileSystemStorageService implements StorageService {
             }
 
             Path entityPath = rootLocation.resolve(Paths.get(entity, id.toString()));
-            Files.createDirectories(entityPath);
+            if (!Files.exists(entityPath)) {
+                Files.createDirectories(entityPath);
+            }
             Path destinationFile = entityPath.resolve(originalFilename).normalize().toAbsolutePath();
 
-            Files.copy(file.getInputStream(), destinationFile);
+            try (var inputStream = file.getInputStream()) {
+                Files.copy(inputStream, destinationFile);
+            }
 
             return destinationFile.toString();
         } catch (IOException e) {

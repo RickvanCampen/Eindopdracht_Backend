@@ -32,7 +32,7 @@ public class ReparatieController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Reparatie> getReparatieById(@PathVariable Long id) {
-        Optional<Reparatie> reparatieOptional = reparatieService.getReparatieById(id);
+        Optional<Reparatie> reparatieOptional = Optional.ofNullable(reparatieService.getReparatieById(id));
         return reparatieOptional.map(reparatie -> new ResponseEntity<>(reparatie, HttpStatus.OK))
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }

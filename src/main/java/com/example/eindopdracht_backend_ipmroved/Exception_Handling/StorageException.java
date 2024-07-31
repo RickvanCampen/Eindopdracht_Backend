@@ -1,4 +1,4 @@
-package com.example.eindopdracht_backend_ipmroved.service;
+package com.example.eindopdracht_backend_ipmroved.Exception_Handling;
 
 public class StorageException extends RuntimeException {
     public StorageException(String message) {

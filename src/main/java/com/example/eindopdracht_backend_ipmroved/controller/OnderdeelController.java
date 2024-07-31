@@ -29,15 +29,19 @@ public class OnderdeelController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Onderdeel> getOnderdeelById(@PathVariable Long id) {
-        Optional<Onderdeel> onderdeelOptional = onderdeelService.getOnderdeelById(id);
+        Optional<Onderdeel> onderdeelOptional = Optional.ofNullable(onderdeelService.getOnderdeelById(id));
         return onderdeelOptional.map(onderdeel -> new ResponseEntity<>(onderdeel, HttpStatus.OK))
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @PostMapping
     public ResponseEntity<Onderdeel> createOnderdeel(@RequestBody Onderdeel onderdeel) {
-        Onderdeel createdOnderdeel = onderdeelService.createOnderdeel(onderdeel);
-        return new ResponseEntity<>(createdOnderdeel, HttpStatus.CREATED);
+        try {
+            Onderdeel createdOnderdeel = onderdeelService.createOnderdeel(onderdeel);
+            return new ResponseEntity<>(createdOnderdeel, HttpStatus.CREATED);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
     @PutMapping("/{id}")
@@ -54,5 +58,17 @@ public class OnderdeelController {
     public ResponseEntity<Void> deleteOnderdeel(@PathVariable Long id) {
         onderdeelService.deleteOnderdeel(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @GetMapping("/search/naam")
+    public ResponseEntity<List<Onderdeel>> searchOnderdelenByNaam(@RequestParam String naam) {
+        List<Onderdeel> onderdelen = onderdeelService.findOnderdelenByNaam(naam);
+        return new ResponseEntity<>(onderdelen, HttpStatus.OK);
+    }
+
+    @GetMapping("/search/prijs")
+    public ResponseEntity<List<Onderdeel>> searchOnderdelenByPrijs(@RequestParam double prijs) {
+        List<Onderdeel> onderdelen = onderdeelService.findOnderdelenByPrijsLessThan(prijs);
+        return new ResponseEntity<>(onderdelen, HttpStatus.OK);
     }
 }

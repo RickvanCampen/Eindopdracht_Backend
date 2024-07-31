@@ -1,12 +1,12 @@
 package com.example.eindopdracht_backend_ipmroved.service;
 
 import com.example.eindopdracht_backend_ipmroved.entity.Reparatie;
+import com.example.eindopdracht_backend_ipmroved.Exception_Handling.ResourceNotFoundException;
 import com.example.eindopdracht_backend_ipmroved.repository.ReparatieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ReparatieService {
@@ -22,25 +22,28 @@ public class ReparatieService {
         return reparatieRepository.findAll();
     }
 
-    public Optional<Reparatie> getReparatieById(Long id) {
-        return reparatieRepository.findById(id);
+    public Reparatie getReparatieById(Long id) {
+        return reparatieRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Reparatie with id " + id + " not found"));
     }
 
     public Reparatie createReparatie(Reparatie reparatie) {
+        // Voeg hier eventueel validatie toe
         return reparatieRepository.save(reparatie);
     }
 
     public Reparatie updateReparatie(Long id, Reparatie reparatie) {
-        Optional<Reparatie> existingReparatieOptional = reparatieRepository.findById(id);
-        if (existingReparatieOptional.isPresent()) {
-            reparatie.setId(id);
-            return reparatieRepository.save(reparatie);
-        } else {
-            return null;
+        if (!reparatieRepository.existsById(id)) {
+            throw new ResourceNotFoundException("Reparatie with id " + id + " not found");
         }
+        reparatie.setId(id);
+        return reparatieRepository.save(reparatie);
     }
 
     public void deleteReparatie(Long id) {
+        if (!reparatieRepository.existsById(id)) {
+            throw new ResourceNotFoundException("Reparatie with id " + id + " not found");
+        }
         reparatieRepository.deleteById(id);
     }
 }

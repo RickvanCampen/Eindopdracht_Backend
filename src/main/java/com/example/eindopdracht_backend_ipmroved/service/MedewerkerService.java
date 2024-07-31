@@ -1,9 +1,11 @@
 package com.example.eindopdracht_backend_ipmroved.service;
 
 import com.example.eindopdracht_backend_ipmroved.entity.Medewerker;
+import com.example.eindopdracht_backend_ipmroved.Exception_Handling.ResourceNotFoundException;
 import com.example.eindopdracht_backend_ipmroved.repository.MedewerkerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -21,8 +23,9 @@ public class MedewerkerService {
         return medewerkerRepository.findAll();
     }
 
-    public Optional<Medewerker> getMedewerkerById(Long id) {
-        return medewerkerRepository.findById(id);
+    public Medewerker getMedewerkerById(Long id) {
+        return medewerkerRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Medewerker with id " + id + " not found"));
     }
 
     public Medewerker createMedewerker(Medewerker medewerker) {
@@ -30,16 +33,34 @@ public class MedewerkerService {
     }
 
     public Medewerker updateMedewerker(Long id, Medewerker medewerker) {
-        Optional<Medewerker> existingMedewerkerOptional = medewerkerRepository.findById(id);
-        if (existingMedewerkerOptional.isPresent()) {
-            medewerker.setId(id);
-            return medewerkerRepository.save(medewerker);
-        } else {
-            return null;
+        if (!medewerkerRepository.existsById(id)) {
+            throw new ResourceNotFoundException("Medewerker with id " + id + " not found");
         }
+        medewerker.setId(id);
+        return medewerkerRepository.save(medewerker);
     }
 
     public void deleteMedewerker(Long id) {
+        if (!medewerkerRepository.existsById(id)) {
+            throw new ResourceNotFoundException("Medewerker with id " + id + " not found");
+        }
         medewerkerRepository.deleteById(id);
+    }
+
+    public Medewerker getMedewerkerByGebruikersnaam(String gebruikersnaam) {
+        return Optional.ofNullable(medewerkerRepository.findByGebruikersnaam(gebruikersnaam))
+                .orElseThrow(() -> new ResourceNotFoundException("Medewerker with gebruikersnaam " + gebruikersnaam + " not found"));
+    }
+
+    public Medewerker promoteMedewerker(Long id) {
+        Medewerker medewerker = getMedewerkerById(id); // Gebruik de bestaande methode die een uitzondering gooit als de medewerker niet gevonden wordt
+        medewerker.setRol("ADMIN"); // Voorbeeld: promote to ADMIN
+        return medewerkerRepository.save(medewerker);
+    }
+
+    public Medewerker assignRoleToMedewerker(Long id, String rol) {
+        Medewerker medewerker = getMedewerkerById(id); // Gebruik de bestaande methode die een uitzondering gooit als de medewerker niet gevonden wordt
+        medewerker.setRol(rol);
+        return medewerkerRepository.save(medewerker);
     }
 }

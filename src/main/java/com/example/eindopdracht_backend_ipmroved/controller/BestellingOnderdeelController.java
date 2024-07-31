@@ -29,7 +29,7 @@ public class BestellingOnderdeelController {
 
     @GetMapping("/{id}")
     public ResponseEntity<BestellingOnderdeel> getBestellingOnderdeelById(@PathVariable Long id) {
-        Optional<BestellingOnderdeel> bestellingOnderdeel = bestellingOnderdeelService.getBestellingOnderdeelById(id);
+        Optional<BestellingOnderdeel> bestellingOnderdeel = Optional.ofNullable(bestellingOnderdeelService.getBestellingOnderdeelById(id));
         return bestellingOnderdeel.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }

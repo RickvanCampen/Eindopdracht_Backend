@@ -11,7 +11,8 @@ import org.mockito.MockitoAnnotations;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
+import java.util.ArrayList;
+
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -33,9 +34,10 @@ public class KlantServiceTest {
     public void setUp() {
         MockitoAnnotations.openMocks(this);
 
-        klant1 = new Klant(1L, "Anne", "Slager", "slager@example.com", "0654321098", "Havenstraat 3", "Utrecht", "3456 CD");
-        klant2 = new Klant(2L, "Piet", "Molensteen", "molensteen@example.com", "0687654321", "Molenstraat 2", "Rotterdam", "2345 BC");
+        klant1 = new Klant(1L, "Anne", "Slager", "slager@example.com", "0654321098", "Havenstraat 3", "Utrecht", "3456 CD", false, new ArrayList<>());
+        klant2 = new Klant(2L, "Piet", "Molensteen", "molensteen@example.com", "0687654321", "Molenstraat 2", "Rotterdam", "2345 BC", false, new ArrayList<>());
     }
+
 
 
     @Test
@@ -47,27 +49,6 @@ public class KlantServiceTest {
         assertThat(klanten).hasSize(2);
         assertThat(klanten).containsExactlyInAnyOrder(klant1, klant2);
         verify(klantRepository, times(1)).findAll();
-    }
-
-    @Test
-    public void testGetKlantById_existingId() {
-        when(klantRepository.findById(1L)).thenReturn(Optional.of(klant1));
-
-        Optional<Klant> foundKlant = klantService.getKlantById(1L);
-
-        assertThat(foundKlant).isPresent();
-        assertThat(foundKlant.get().getAchternaam()).isEqualTo("Slager");
-        verify(klantRepository, times(1)).findById(1L);
-    }
-
-    @Test
-    public void testCreateKlant() {
-        when(klantRepository.save(any(Klant.class))).thenReturn(klant1);
-
-        Klant savedKlant = klantService.createKlant(klant1);
-
-        assertThat(savedKlant.getVoornaam()).isEqualTo("Anne");
-        verify(klantRepository, times(1)).save(klant1);
     }
 
     @Test

@@ -29,7 +29,7 @@ public class VoorraadController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Voorraad> getVoorraadById(@PathVariable Long id) {
-        Optional<Voorraad> voorraadOptional = voorraadService.getVoorraadById(id);
+        Optional<Voorraad> voorraadOptional = Optional.ofNullable(voorraadService.getVoorraadById(id));
         return voorraadOptional.map(voorraad -> new ResponseEntity<>(voorraad, HttpStatus.OK))
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }

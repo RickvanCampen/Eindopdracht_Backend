@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class KlantService {
@@ -41,5 +42,24 @@ public class KlantService {
 
     public void deleteKlant(Long id) {
         klantRepository.deleteById(id);
+    }
+
+    public Optional<Klant> upgradeKlantNaarPremium(Long id) {
+        Optional<Klant> klantOpt = klantRepository.findById(id);
+        if (klantOpt.isPresent()) {
+            Klant klant = klantOpt.get();
+            if (klant.getAankoopGeschiedenis().size() > 10) {
+                klant.setPremium(true);
+                klantRepository.save(klant);
+                return Optional.of(klant);
+            }
+        }
+        return Optional.empty();
+    }
+
+    public List<Klant> getAllPremiumKlanten() {
+        return klantRepository.findAll().stream()
+                .filter(Klant::isPremium)
+                .collect(Collectors.toList());
     }
 }

@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/checkbeurten")
@@ -28,7 +29,8 @@ public class CheckbeurtController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Checkbeurt> getCheckbeurtById(@PathVariable Long id) {
-        return checkbeurtService.getCheckbeurtById(id)
+        Optional<Checkbeurt> checkbeurtOptional = Optional.ofNullable(checkbeurtService.getCheckbeurtById(id));
+        return checkbeurtOptional
                 .map(checkbeurt -> new ResponseEntity<>(checkbeurt, HttpStatus.OK))
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }

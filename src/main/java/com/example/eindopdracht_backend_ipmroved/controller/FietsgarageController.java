@@ -2,12 +2,14 @@ package com.example.eindopdracht_backend_ipmroved.controller;
 
 import com.example.eindopdracht_backend_ipmroved.entity.Fietsgarage;
 import com.example.eindopdracht_backend_ipmroved.service.FietsgarageService;
+import com.example.eindopdracht_backend_ipmroved.Exception_Handling.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/fietsgarages")
@@ -28,8 +30,8 @@ public class FietsgarageController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Fietsgarage> getFietsgarageById(@PathVariable Long id) {
-        return fietsgarageService.getFietsgarageById(id)
-                .map(fietsgarage -> new ResponseEntity<>(fietsgarage, HttpStatus.OK))
+        Optional<Fietsgarage> fietsgarageOpt = Optional.ofNullable(fietsgarageService.getFietsgarageById(id));
+        return fietsgarageOpt.map(fietsgarage -> new ResponseEntity<>(fietsgarage, HttpStatus.OK))
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
@@ -41,17 +43,21 @@ public class FietsgarageController {
 
     @PutMapping("/{id}")
     public ResponseEntity<Fietsgarage> updateFietsgarage(@PathVariable Long id, @RequestBody Fietsgarage fietsgarage) {
-        Fietsgarage updatedFietsgarage = fietsgarageService.updateFietsgarage(id, fietsgarage);
-        if (updatedFietsgarage != null) {
+        try {
+            Fietsgarage updatedFietsgarage = fietsgarageService.updateFietsgarage(id, fietsgarage);
             return new ResponseEntity<>(updatedFietsgarage, HttpStatus.OK);
-        } else {
+        } catch (ResourceNotFoundException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteFietsgarage(@PathVariable Long id) {
-        fietsgarageService.deleteFietsgarage(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        try {
+            fietsgarageService.deleteFietsgarage(id);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } catch (ResourceNotFoundException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 }

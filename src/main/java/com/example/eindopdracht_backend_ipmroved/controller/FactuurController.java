@@ -2,6 +2,7 @@ package com.example.eindopdracht_backend_ipmroved.controller;
 
 import com.example.eindopdracht_backend_ipmroved.entity.Factuur;
 import com.example.eindopdracht_backend_ipmroved.service.FactuurService;
+import com.example.eindopdracht_backend_ipmroved.Exception_Handling.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,9 +29,12 @@ public class FactuurController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Factuur> getFactuurById(@PathVariable Long id) {
-        return factuurService.getFactuurById(id)
-                .map(factuur -> new ResponseEntity<>(factuur, HttpStatus.OK))
-                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+        try {
+            Factuur factuur = factuurService.getFactuurById(id);
+            return new ResponseEntity<>(factuur, HttpStatus.OK);
+        } catch (ResourceNotFoundException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     @PostMapping
@@ -41,17 +45,21 @@ public class FactuurController {
 
     @PutMapping("/{id}")
     public ResponseEntity<Factuur> updateFactuur(@PathVariable Long id, @RequestBody Factuur factuur) {
-        Factuur updatedFactuur = factuurService.updateFactuur(id, factuur);
-        if (updatedFactuur != null) {
+        try {
+            Factuur updatedFactuur = factuurService.updateFactuur(id, factuur);
             return new ResponseEntity<>(updatedFactuur, HttpStatus.OK);
-        } else {
+        } catch (ResourceNotFoundException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteFactuur(@PathVariable Long id) {
-        factuurService.deleteFactuur(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        try {
+            factuurService.deleteFactuur(id);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } catch (ResourceNotFoundException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 }

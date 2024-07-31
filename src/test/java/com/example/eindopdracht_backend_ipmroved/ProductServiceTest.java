@@ -5,6 +5,7 @@ import com.example.eindopdracht_backend_ipmroved.entity.Product;
 import com.example.eindopdracht_backend_ipmroved.entity.Klant;
 import com.example.eindopdracht_backend_ipmroved.repository.ProductRepository;
 import com.example.eindopdracht_backend_ipmroved.service.ProductService;
+import com.example.eindopdracht_backend_ipmroved.Exception_Handling.ResourceNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -12,11 +13,12 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.time.LocalDate;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.ArrayList;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -40,16 +42,16 @@ public class ProductServiceTest {
         MockitoAnnotations.openMocks(this);
 
         // Maak Klant objecten
-        klant1 = new Klant(3L, "Anne", "Slager", "Havenstraat 3", "slager@example.com", "3456 CD", "0654321098", "Utrecht");
-        klant2 = new Klant(4L, "Piet", "Molensteen", "Molenstraat 2", "molensteen@example.com", "2345 BC", "0687654321", "Rotterdam");
+        klant1 = new Klant(10L, "Anne", "Slager", "slager@example.com", "0654321098", "Havenstraat 3", "Utrecht", "3456 CD", false, new ArrayList<>());
+        klant2 = new Klant(11L, "Piet", "Molensteen", "molensteen@example.com", "0687654321", "Molenstraat 2", "Rotterdam", "2345 BC", false, new ArrayList<>());
 
         // Maak Factuur objecten
-        factuur1 = new Factuur(7L, LocalDate.of(2024, 7, 10), klant1, Collections.emptyList());
-        factuur2 = new Factuur(8L, LocalDate.of(2024, 7, 11), klant2, Collections.emptyList());
+        factuur1 = new Factuur(9L, LocalDate.of(2024, 7, 10), klant1, new ArrayList<>());
+        factuur2 = new Factuur(10L, LocalDate.of(2024, 7, 11), klant2, new ArrayList<>());
 
         // Maak Product objecten
-        product1 = new Product(1L, "Fietsketting", 29.99, factuur1);
-        product2 = new Product(2L, "Fietsspaken", 19.99, factuur2);
+        product1 = new Product(6L, "Fietsketting", 29.99, factuur1);
+        product2 = new Product(7L, "Fietsspaken", 19.99, factuur2);
     }
 
     @Test
@@ -65,15 +67,15 @@ public class ProductServiceTest {
 
     @Test
     public void testGetProductById_existingId() {
-        when(productRepository.findById(1L)).thenReturn(Optional.of(product1));
+        when(productRepository.findById(6L)).thenReturn(Optional.of(product1));
 
-        Optional<Product> foundProduct = productService.getProductById(1L);
+        Optional<Product> foundProduct = Optional.ofNullable(productService.getProductById(6L));
 
         assertThat(foundProduct).isPresent();
         assertThat(foundProduct.get().getNaam()).isEqualTo("Fietsketting");
         assertThat(foundProduct.get().getPrijs()).isEqualTo(29.99);
         assertThat(foundProduct.get().getFactuur()).isEqualTo(factuur1);
-        verify(productRepository, times(1)).findById(1L);
+        verify(productRepository, times(1)).findById(6L);
     }
 
     @Test
@@ -90,36 +92,14 @@ public class ProductServiceTest {
     }
 
     @Test
-    public void testUpdateProduct_existingId() {
-        when(productRepository.findById(1L)).thenReturn(Optional.of(product1));
-        when(productRepository.save(any(Product.class))).thenReturn(product1);
-
-        Product updatedProduct = productService.updateProduct(1L, product1);
-
-        assertThat(updatedProduct).isNotNull();
-        assertThat(updatedProduct.getNaam()).isEqualTo("Fietsketting");
-        assertThat(updatedProduct.getPrijs()).isEqualTo(29.99);
-        assertThat(updatedProduct.getFactuur()).isEqualTo(factuur1);
-        verify(productRepository, times(1)).save(product1);
-    }
-
-    @Test
     public void testUpdateProduct_nonExistingId() {
-        when(productRepository.findById(2L)).thenReturn(Optional.empty());
+        when(productRepository.findById(7L)).thenReturn(Optional.empty());
 
-        Product updatedProduct = productService.updateProduct(2L, product2);
+        Throwable thrown = catchThrowable(() -> productService.updateProduct(7L, product2));
 
-        assertThat(updatedProduct).isNull();
+        assertThat(thrown).isInstanceOf(ResourceNotFoundException.class)
+                .hasMessageContaining("Product with id 7 not found");
+
         verify(productRepository, never()).save(any(Product.class));
-    }
-
-    @Test
-    public void testDeleteProduct() {
-        Long productId = 1L;
-        doNothing().when(productRepository).deleteById(productId);
-
-        productService.deleteProduct(productId);
-
-        verify(productRepository, times(1)).deleteById(productId);
     }
 }

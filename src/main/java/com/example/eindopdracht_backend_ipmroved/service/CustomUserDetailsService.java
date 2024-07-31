@@ -1,6 +1,7 @@
 package com.example.eindopdracht_backend_ipmroved.service;
 
 import com.example.eindopdracht_backend_ipmroved.entity.Medewerker;
+import com.example.eindopdracht_backend_ipmroved.Exception_Handling.ResourceNotFoundException;
 import com.example.eindopdracht_backend_ipmroved.repository.MedewerkerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,7 +19,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String gebruikersnaam) throws UsernameNotFoundException {
         Medewerker medewerker = medewerkerRepository.findByGebruikersnaam(gebruikersnaam);
         if (medewerker == null) {
-            throw new UsernameNotFoundException("Gebruiker niet gevonden");
+            throw new ResourceNotFoundException("Medewerker", "gebruikersnaam", gebruikersnaam);
         }
         return org.springframework.security.core.userdetails.User
                 .withUsername(medewerker.getGebruikersnaam())
