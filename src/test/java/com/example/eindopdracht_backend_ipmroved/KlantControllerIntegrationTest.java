@@ -1,6 +1,6 @@
 package com.example.eindopdracht_backend_ipmroved;
 
-import com.example.eindopdracht_backend_ipmroved.entity.Klant;
+import com.example.eindopdracht_backend_ipmroved.dto.KlantDTO;
 import com.example.eindopdracht_backend_ipmroved.security.JwtTokenProvider;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
@@ -31,7 +31,8 @@ public class KlantControllerIntegrationTest {
     public void testCreateKlant() throws Exception {
         String jwtToken = jwtTokenProvider.generateToken("testuser", "ROLE_USER");
 
-        String klantJson = "{ \"id\": null, \"voornaam\": \"John\", \"achternaam\": \"Doe\", \"email\": \"john.doe@example.com\", \"telefoonnummer\": \"0123456789\", \"adres\": \"Teststraat 1\", \"plaats\": \"Teststad\", \"postcode\": \"1234 AB\", \"premium\": false, \"aankoopGeschiedenis\": [] }";
+        KlantDTO klantDTO = new KlantDTO(null, "John", "Doe", "john.doe@example.com", "0123456789", "Teststraat 1", "Teststad", "1234 AB", false, null);
+        String klantJson = objectMapper.writeValueAsString(klantDTO);
 
         mockMvc.perform(MockMvcRequestBuilders
                         .post("/api/klanten")
@@ -41,13 +42,13 @@ public class KlantControllerIntegrationTest {
                 .andExpect(MockMvcResultMatchers.status().isCreated());
     }
 
-
-
     @Test
     public void testUpdateKlant() throws Exception {
         String jwtToken = jwtTokenProvider.generateToken("testuser", "ROLE_USER");
 
-        String klantJson = "{ \"id\": null, \"voornaam\": \"John\", \"achternaam\": \"Doe\", \"email\": \"john.doe@example.com\", \"telefoonnummer\": \"0123456789\", \"adres\": \"Teststraat 1\", \"plaats\": \"Teststad\", \"postcode\": \"1234 AB\", \"premium\": false, \"aankoopGeschiedenis\": [] }";
+        KlantDTO klantDTO = new KlantDTO(null, "John", "Doe", "john.doe@example.com", "0123456789", "Teststraat 1", "Teststad", "1234 AB", false, null);
+        String klantJson = objectMapper.writeValueAsString(klantDTO);
+
         MvcResult postResult = mockMvc.perform(MockMvcRequestBuilders
                         .post("/api/klanten")
                         .header("Authorization", "Bearer " + jwtToken)
@@ -57,7 +58,7 @@ public class KlantControllerIntegrationTest {
                 .andReturn();
 
         String responseContent = postResult.getResponse().getContentAsString();
-        Klant createdKlant = objectMapper.readValue(responseContent, Klant.class);
+        KlantDTO createdKlant = objectMapper.readValue(responseContent, KlantDTO.class);
 
         createdKlant.setAdres("Nieuwe Teststraat 2");
         String updatedKlantJson = objectMapper.writeValueAsString(createdKlant);
@@ -75,7 +76,8 @@ public class KlantControllerIntegrationTest {
     public void testDeleteKlant() throws Exception {
         String jwtToken = jwtTokenProvider.generateToken("testuser", "ROLE_USER");
 
-        String klantJson = "{ \"id\": null, \"voornaam\": \"John\", \"achternaam\": \"Doe\", \"email\": \"john.doe@example.com\", \"telefoonnummer\": \"0123456789\", \"adres\": \"Teststraat 1\", \"plaats\": \"Teststad\", \"postcode\": \"1234 AB\", \"premium\": false, \"aankoopGeschiedenis\": [] }";
+        KlantDTO klantDTO = new KlantDTO(null, "John", "Doe", "john.doe@example.com", "0123456789", "Teststraat 1", "Teststad", "1234 AB", false, null);
+        String klantJson = objectMapper.writeValueAsString(klantDTO);
 
         MvcResult postResult = mockMvc.perform(MockMvcRequestBuilders
                         .post("/api/klanten")
@@ -86,7 +88,7 @@ public class KlantControllerIntegrationTest {
                 .andReturn();
 
         String responseContent = postResult.getResponse().getContentAsString();
-        Klant createdKlant = objectMapper.readValue(responseContent, Klant.class);
+        KlantDTO createdKlant = objectMapper.readValue(responseContent, KlantDTO.class);
 
         mockMvc.perform(MockMvcRequestBuilders
                         .delete("/api/klanten/" + createdKlant.getId())
@@ -97,5 +99,26 @@ public class KlantControllerIntegrationTest {
                         .get("/api/klanten/" + createdKlant.getId())
                         .header("Authorization", "Bearer " + jwtToken))
                 .andExpect(MockMvcResultMatchers.status().isNotFound());
+    }
+
+    @Test
+    public void testGetAllKlanten() throws Exception {
+        String jwtToken = jwtTokenProvider.generateToken("testuser", "ROLE_USER");
+
+        mockMvc.perform(MockMvcRequestBuilders
+                        .get("/api/klanten")
+                        .header("Authorization", "Bearer " + jwtToken))
+                .andExpect(MockMvcResultMatchers.status().isOk());
+    }
+
+
+    @Test
+    public void testGetAllPremiumKlanten() throws Exception {
+        String jwtToken = jwtTokenProvider.generateToken("testuser", "ROLE_USER");
+
+        mockMvc.perform(MockMvcRequestBuilders
+                        .get("/api/klanten/premium")
+                        .header("Authorization", "Bearer " + jwtToken))
+                .andExpect(MockMvcResultMatchers.status().isOk());
     }
 }

@@ -6,8 +6,11 @@ import com.example.eindopdracht_backend_ipmroved.service.KlantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -51,7 +54,7 @@ public class KlantController {
     }
 
     @PostMapping
-    public ResponseEntity<KlantDTO> createKlant(@RequestBody KlantDTO klantDTO) {
+    public ResponseEntity<KlantDTO> createKlant(@Valid @RequestBody KlantDTO klantDTO) {
         try {
             Klant klant = convertToEntity(klantDTO);
             Klant createdKlant = klantService.createKlant(klant);
@@ -63,7 +66,7 @@ public class KlantController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<KlantDTO> updateKlant(@PathVariable("id") Long id, @RequestBody KlantDTO klantDTO) {
+    public ResponseEntity<KlantDTO> updateKlant(@PathVariable("id") Long id, @Valid @RequestBody KlantDTO klantDTO) {
         try {
             Klant klant = convertToEntity(klantDTO);
             Klant updatedKlant = klantService.updateKlant(id, klant);
@@ -114,6 +117,16 @@ public class KlantController {
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<Object> handleValidationExceptions(MethodArgumentNotValidException ex) {
+        var errors = ex.getBindingResult().getAllErrors().stream()
+                .collect(Collectors.toMap(
+                        error -> ((FieldError) error).getField(),
+                        error -> error.getDefaultMessage()
+                ));
+        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
     }
 
     private KlantDTO convertToDTO(Klant klant) {
