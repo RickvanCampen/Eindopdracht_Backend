@@ -3,34 +3,38 @@ package com.example.eindopdracht_backend_ipmroved.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
+
 
 @Entity
-@Table(name = "token")
+@Table(name = "appointment")
 @Getter
 @Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Token {
+public class Appointment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
 
-    @Column(name = "token")
-    private String token;
+    @Column(name = "bicycle_name")
+    private String bicycle_name;
 
-    @Column(name = "token_type")
-    @Enumerated(EnumType.STRING)
-    private TokenType token_type = TokenType.BEARER;
+    @Column(name = "description")
+    private String description;
 
+    @Column(name = "date_time")
+    private LocalDateTime date_time;
 
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="user_id")
     private User user;
 
-    @Column(nullable = false)
-    private boolean loggedOut = false;
+    @Lob
+    @Column(name = "attachment")
+    private byte[] attachment;
 }
 

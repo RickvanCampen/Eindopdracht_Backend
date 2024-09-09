@@ -1,8 +1,5 @@
 package com.example.eindopdracht_backend_ipmroved;
 
-import com.example.eindopdracht_backend_ipmroved.entity.Adres;
-import com.example.eindopdracht_backend_ipmroved.repository.AdresRepository;
-import com.example.eindopdracht_backend_ipmroved.service.AdresService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;

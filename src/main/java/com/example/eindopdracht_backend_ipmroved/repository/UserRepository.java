@@ -1,12 +1,12 @@
 package com.example.eindopdracht_backend_ipmroved.repository;
 
-import com.example.eindopdracht_backend_ipmroved.entity.Token;
+import com.example.eindopdracht_backend_ipmroved.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
 @Repository
-public interface TokenRepository extends JpaRepository<Token, Long> {
-    Optional<Token> findByToken(String token);
+public interface UserRepository extends JpaRepository<User, Long> {
+    Optional<User> findByUsername(String username);
 }

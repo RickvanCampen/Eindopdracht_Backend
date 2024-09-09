@@ -1,8 +1,5 @@
 package com.example.eindopdracht_backend_ipmroved;
 
-import com.example.eindopdracht_backend_ipmroved.entity.Medewerker;
-import com.example.eindopdracht_backend_ipmroved.repository.MedewerkerRepository;
-import com.example.eindopdracht_backend_ipmroved.service.MedewerkerService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
