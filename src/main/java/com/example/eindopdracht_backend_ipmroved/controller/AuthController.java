@@ -1,42 +1,30 @@
 package com.example.eindopdracht_backend_ipmroved.controller;
 
-import com.example.eindopdracht_backend_ipmroved.dto.LoginRequest;
-import com.example.eindopdracht_backend_ipmroved.security.JwtAuthenticationResponse;
-import com.example.eindopdracht_backend_ipmroved.security.JwtTokenProvider;
+
+import com.example.eindopdracht_backend_ipmroved.models.requests.AuthRequest;
+import com.example.eindopdracht_backend_ipmroved.models.requests.CreateUserRequest;
+import com.example.eindopdracht_backend_ipmroved.models.responses.AuthResponse;
+import com.example.eindopdracht_backend_ipmroved.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequestMapping("/api/v1/auth")
 public class AuthController {
-
-    private final AuthenticationManager authenticationManager;
-    private final JwtTokenProvider jwtTokenProvider;
-
     @Autowired
-    public AuthController(@Qualifier("authenticationManagerBean") AuthenticationManager authenticationManager, JwtTokenProvider jwtTokenProvider) {
-        this.authenticationManager = authenticationManager;
-        this.jwtTokenProvider = jwtTokenProvider;
+    private AuthService service;
+
+    @PostMapping("/register")
+    public ResponseEntity<AuthResponse> register(@RequestBody CreateUserRequest request) {
+        return ResponseEntity.ok(service.registerUser(request));
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        loginRequest.getUsername(),
-                        loginRequest.getPassword()
-                )
-        );
-
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        String jwt = jwtTokenProvider.generateToken(authentication);
-        return ResponseEntity.ok(new JwtAuthenticationResponse(jwt));
+    @PostMapping("/authenticate")
+    public ResponseEntity<AuthResponse> authenticate(@RequestBody AuthRequest request) {
+        return ResponseEntity.ok(service.authenticate(request));
     }
 }

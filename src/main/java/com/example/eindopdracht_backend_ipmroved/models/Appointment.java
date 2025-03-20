@@ -1,4 +1,4 @@
-package com.example.eindopdracht_backend_ipmroved.entity;
+package com.example.eindopdracht_backend_ipmroved.models;
 
 import lombok.*;
 
@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 
 
 @Entity
-@Table(name = "appointment")
+@Table(name = "appointments")
 @Getter
 @Setter
 @Builder

@@ -1,6 +1,6 @@
 package com.example.eindopdracht_backend_ipmroved.service;
 
-import com.example.eindopdracht_backend_ipmroved.entity.User;
+import com.example.eindopdracht_backend_ipmroved.models.User;
 import com.example.eindopdracht_backend_ipmroved.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
